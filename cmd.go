@@ -62,10 +62,19 @@ var deleteCmd = &cobra.Command{
 }
 
 
+var ApiCmd = &cobra.Command{
+	Use: "api",
+	Run: func(cmd *cobra.Command, args []string) {
+		start()
+	},
+}
+
+
 func Run() {
 	rootCmd.AddCommand(addCmd)
 	rootCmd.AddCommand(displayCmd)
 	rootCmd.AddCommand(deleteCmd)
+	rootCmd.AddCommand(ApiCmd)
 	if err := rootCmd.Execute(); err != nil {
 		_ = rootCmd.Help()
 		os.Exit(1)
