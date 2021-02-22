@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+        <style>
+            body{
+                font-family: "comic sans ms";
+            }
+            .task{
+                color: rgb(177, 29, 110);
+                background-color: rgb(247, 196, 68);
+                margin-top: 5px;
+                padding: 8px;
+                border-radius: 20px;
+                cursor: pointer;
+            }
+        </style>
+
+        <script>
+            console.log(axios);
+            axios.get("http://localhost:5000").then(r => {
+                var tasks = document.getElementById("tasks");
+                r.data.forEach((element, i) => {
+                    var e = document.createElement("div");
+                    e.classList.add("task")
+                    e.textContent = element.Description;
+                    e.addEventListener("click", () => {
+                        axios.delete("http://localhost:5000/todo/"+i).then(r => {
+                            window.location.reload();
+                        })
+                    })
+                    tasks.appendChild(e);
+                });
+                
+                console.log(r);
+            })
+            function submit(){
+                var newtask = document.getElementById("input").value;
+                console.log(newtask);
+                axios.post("http://localhost:5000/todo",{Description : newtask}).then(r => {
+                    console.log("task added");
+                    window.location.reload();
+                })
+            }
+        </script>
+    </head>
+    <body>
+        <h1>list of tasks</h1>
+        <div id = "tasks"></div>
+        
+        <input type="text" id = "input">
+        <button onclick="submit()"> add </button>
+    </body>
+</html>
